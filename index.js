@@ -18,10 +18,10 @@ const {
 
 (async () => {
     const account = await user_account({
-        cookie: `MUSIC_U=${USER_TOKEN}`,
+        cookie: `MUSIC_U=6283685640766afbfcdc9945ed5f1fe5c1b71504f4e099cbaaff46128a9bac4a993166e004087dd3cb054176175750bbeff44e19c5206f3750710eda627369e89a38f147f6d17e1cd4dbf082a8813684`,
     })
-    const username = account.body.profile.nickname;
-    const avatarUrl = account.body.profile.avatarUrl + "?param=128y128"; // 压缩
+    const username = 'G-Pegasus';
+    const avatarUrl = 'https://p1.music.126.net/JIG4RUSAv-hIoZzXLImOqA==/109951167764201474.jpg' + "?param=128y128"; // 压缩
     console.log(`用户名：${username}\n个人头像: ${avatarUrl}`);
 
     /*
@@ -29,8 +29,8 @@ const {
     */
    
     const record = await user_record({
-        cookie: `MUSIC_U=${USER_TOKEN}`,
-        uid: USER_ID,
+        cookie: `MUSIC_U=6283685640766afbfcdc9945ed5f1fe5c1b71504f4e099cbaaff46128a9bac4a993166e004087dd3cb054176175750bbeff44e19c5206f3750710eda627369e89a38f147f6d17e1cd4dbf082a8813684`,
+        uid: '1797233457',
         type: 1,
     }).catch(error => console.error(`无法获取用户播放记录 \n${error}`));
 
@@ -44,7 +44,7 @@ const {
     const songAuthors = songAuthorArray.map(i => i.name).join(' / ');
 
     const songDetail = await song_detail({
-        cookie: `MUSIC_U=${USER_TOKEN}`,
+        cookie: `MUSIC_U=6283685640766afbfcdc9945ed5f1fe5c1b71504f4e099cbaaff46128a9bac4a993166e004087dd3cb054176175750bbeff44e19c5206f3750710eda627369e89a38f147f6d17e1cd4dbf082a8813684`,
         ids: songId,
     }).catch(error => console.error(`无法获取歌曲信息 \n${error}`));
 
@@ -228,28 +228,28 @@ const {
 
     try {
         const octokit = new Octokit({
-            auth: GH_TOKEN,
+            auth: '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',
         });
 
         const {
             data: { sha: svgSha }
         } = await octokit.git.createBlob({
-            owner: AUTHOR,
-            repo: REPO,
+            owner: 'G-Pegasus',
+            repo: 'netease-cloud-music-card',
             content: svgContent,
             encoding: "base64"
         });
 
         const commits = await octokit.repos.listCommits({
-            owner: AUTHOR,
-            repo: REPO,
+            owner: 'G-Pegasus',
+            repo: 'netease-cloud-music-card',
         });
         const lastSha = commits.data[0].sha;
         const {
             data: { sha: treeSHA }
         } =  await octokit.git.createTree({
-            owner: AUTHOR,
-            repo: REPO,
+            owner: 'G-Pegasus',
+            repo: 'netease-cloud-music-card',
             tree: [
                 {
                     mode: '100644',
@@ -263,8 +263,8 @@ const {
         const {
             data: { sha: newSHA }
         } =  await octokit.git.createCommit({
-            owner: AUTHOR,
-            repo: REPO,
+            owner: 'G-Pegasus',
+            repo: 'netease-cloud-music-card',
             author: {
                 name: "github-actions[bot]",
                 email: "41898282+github-actions[bot]@users.noreply.github.com",
@@ -278,8 +278,8 @@ const {
             parents: [ lastSha ],
         });
         const result = await octokit.git.updateRef({
-            owner: AUTHOR,
-            repo: REPO,
+            owner: 'G-Pegasus',
+            repo: 'netease-cloud-music-card',
             ref: "heads/main",
             sha: newSHA,
         });
